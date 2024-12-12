@@ -1,0 +1,1 @@
+from .diagonalizable_schema import *

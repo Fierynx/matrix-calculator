@@ -1,0 +1,1 @@
+from .diagonalizable import router as diagonalizableRouter
