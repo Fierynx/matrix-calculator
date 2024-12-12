@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import diagonalizableRouter
+from .routers import diagonalizableRouter, LUDecompositionRouter
 
 app = FastAPI()
 
@@ -17,3 +17,4 @@ app.add_middleware(
 )
 
 app.include_router(diagonalizableRouter, prefix="/diagonalizable", tags=["Diagonalizable Matrix"])
+app.include_router(LUDecompositionRouter, prefix="/lu", tags=["LU Decomposition"])
