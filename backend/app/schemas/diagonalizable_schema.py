@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
-class MatrixInput(BaseModel):
+class DiagonalizableInput(BaseModel):
   matrix: List[List[float]]
 
 class DiagonalizableResponse(BaseModel):
