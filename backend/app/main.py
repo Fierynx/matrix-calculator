@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import diagonalizableRouter, LUDecompositionRouter
+from .routers import diagonalizableRouter, LUDecompositionRouter, svdRouter
 
 app = FastAPI()
 
@@ -18,3 +18,4 @@ app.add_middleware(
 
 app.include_router(diagonalizableRouter, prefix="/diagonalizable", tags=["Diagonalizable Matrix"])
 app.include_router(LUDecompositionRouter, prefix="/lu", tags=["LU Decomposition"])
+app.include_router(svdRouter, prefix="/svd", tags=["Singular Value Decomposition"])
