@@ -9,7 +9,7 @@ def forward_substitution_crout(L, b):
     for row in range(L_rows):
         #menghindari pembagian dengan nol (mengatasi singular matrix)
         if L[row, row] == 0:
-            y[row] = -999999999  
+            y[row] = np.nan
         else:
             y[row] = (b[row] - np.sum(L[row, :row] * y[:row])) / L[row, row]
     return y
@@ -22,7 +22,7 @@ def backward_substitution_crout(U, y):
     for row in range (U_cols - 1, -1, -1):
         #menghindari pembagian dengan nol (mengatasi singular matrix)
         if U[row, row] == 0:
-            x[row] = -999999999
+            x[row] = np.nan
         else:
             x[row] = (y[row] - np.dot(U[row, row + 1:], x[row + 1:])) / U[row, row]
     return x
@@ -51,7 +51,7 @@ def crout_decomposition(A, b: LUDecompositionInput) -> LUDecompositionResponse:
                 else:
                     #menghindari pembagian dengan nol (mengatasi singular matrix)
                     if L[row, row] == 0:
-                        U[row, cols] = -999999999
+                        U[row, cols] = np.nan
                     else:
                         U[row, cols] = (A[row, cols] - np.sum(L[row, :row] * U[:row, cols])) / L[row, row]
 
@@ -62,11 +62,11 @@ def crout_decomposition(A, b: LUDecompositionInput) -> LUDecompositionResponse:
         x = backward_substitution_crout(U, y)
         
         return LUDecompositionResponse(
-            L=L,
-            U=U,
-            A=A,
-            y=y,
-            x=x
+            L=L.tolist(),
+            U=U.tolist(),
+            A=A.tolist(),
+            y=y.tolist(),
+            x=x.tolist()
         )
     except Exception as e:
         raise
