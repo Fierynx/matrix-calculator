@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 import orjson
 
 class DiagonalizableInput(BaseModel):
@@ -11,6 +11,10 @@ class DiagonalizableInput(BaseModel):
 class DiagonalizableResponse(BaseModel):
   eigenvalues: List[complex]
   eigenvectors: List[List[complex]]
+  is_diagonalizable: bool
+  P: Optional[List[List[complex]]] = None,
+  D: Optional[List[List[complex]]] = None,
+  reconstructed_matrix: Optional[List[List[complex]]] = None,
   is_diagonalizable: bool
   class Config:
     json_dumps=lambda obj, *, default: orjson.dumps(
