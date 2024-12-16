@@ -1,8 +1,8 @@
 import numpy as np
 from ..schemas import DiagonalizableInput, DiagonalizableResponse
 
-def check_diagonalizable(input_data: DiagonalizableInput) -> DiagonalizableResponse:
-  matrix = np.array(input_data)
+def check_diagonalizable(matrix: DiagonalizableInput) -> DiagonalizableResponse:
+  matrix = np.array(matrix)
   eigenvalues, eigenvectors = np.linalg.eig(matrix)
 
   tolerance = 1e-10
