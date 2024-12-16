@@ -4,7 +4,7 @@ import orjson
 
 class PowerMethodInput(BaseModel):
   A: List[List[float]]
-  Bk: Optional[List[float]] = None
+  X0: Optional[List[float]] = None
   class Config:
     json_dumps = orjson.dumps
     json_loads = orjson.loads
