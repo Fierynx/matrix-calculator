@@ -3,7 +3,7 @@ from typing import List
 import orjson
 
 class DiagonalizableInput(BaseModel):
-  matrix: List[List[complex]]
+  matrix: List[List[float]]
   class Config:
     json_dumps = orjson.dumps
     json_loads = orjson.loads
