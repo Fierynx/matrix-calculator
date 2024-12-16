@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
-from .routers import diagonalizableRouter, LUDecompositionRouter, svdRouter
+from .routers import diagonalizableRouter, LUDecompositionRouter, svdRouter, PowerMethodRouter
 
 app = FastAPI(default_response_class=ORJSONResponse)
 
@@ -20,3 +20,4 @@ app.add_middleware(
 app.include_router(diagonalizableRouter, prefix="/diagonalizable", tags=["Diagonalizable Matrix"])
 app.include_router(LUDecompositionRouter, prefix="/lu", tags=["LU Decomposition"])
 app.include_router(svdRouter, prefix="/svd", tags=["Singular Value Decomposition"])
+app.include_router(PowerMethodRouter, prefix="/powermethod", tags=["Power Method"])
