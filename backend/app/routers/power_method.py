@@ -1,4 +1,3 @@
-from typing import Union
 from fastapi import APIRouter
 from ..services import power_methods
 from ..schemas import PowerMethodInput, Response

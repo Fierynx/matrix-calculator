@@ -1,4 +1,3 @@
-from typing import Union
 from fastapi import APIRouter
 from ..services import crout_decomposition
 from ..schemas import LUDecompositionInput, Response
@@ -13,8 +12,8 @@ def lu_decomposition(matrix: LUDecompositionInput):
       data=result
     )
   except Exception as e:
-      return Response(
-            success=False,
-            status=422,
-            message=str(e)
-        )
+    return Response(
+      success=False,
+      status=422,
+      message=str(e)
+    )
