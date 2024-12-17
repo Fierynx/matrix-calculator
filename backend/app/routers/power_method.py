@@ -7,7 +7,7 @@ router = APIRouter()
 @router.post("/", response_model=Response)
 def power_method(matrix: PowerMethodInput):
     try:
-        result = power_methods(matrix.A, matrix.Bk)
+        result = power_methods(matrix.A, matrix.X0)
         return Response(
             data=result
         )

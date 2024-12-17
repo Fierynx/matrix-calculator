@@ -3,7 +3,7 @@ from typing import List, Optional
 
 class PowerMethodInput(BaseModel):
   A: List[List[float]]
-  Bk: Optional[List[float]] = None
+  X0: Optional[List[float]] = None
 
 class PowerMethodResponse(BaseModel):
   dominant_eigenvalue: float
