@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #F8FAFC;
+}
+
+.transition {
+  @apply transition-all duration-100;
+}
