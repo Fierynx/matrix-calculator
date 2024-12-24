@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
 from .routers import diagonalizableRouter, luDecompositionRouter, svdRouter, powerMethodRouter
-
+ORJSONResponse
 #init app
 app = FastAPI(default_response_class=ORJSONResponse)
 
