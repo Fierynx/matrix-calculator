@@ -1,6 +1,6 @@
 export default function Footer(){
   return (
-    <footer className="bg-gray-800 text-center p-3">
+    <footer className="bg-transparent text-center p-3 border-t">
       <p>© 2024 Copyright. All right deserved.</p>
     </footer>
   )
