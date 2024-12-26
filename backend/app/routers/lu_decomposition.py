@@ -7,7 +7,7 @@ router = APIRouter()
 @router.post("/", response_model=Response)
 def lu_decomposition(matrix: LUDecompositionInput):
   try: 
-    result = crout_decomposition(matrix.A, matrix.b)
+    result = crout_decomposition(matrix.A)
     return Response(
       data=result
     )
