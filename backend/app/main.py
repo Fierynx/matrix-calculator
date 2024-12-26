@@ -19,7 +19,7 @@ app.add_middleware(
 )
 
 #routers
-app.include_router(diagonalizableRouter, prefix="/diagonalizable", tags=["Diagonalizable Matrix"])
+app.include_router(diagonalizableRouter, prefix="/diagonalize", tags=["Diagonalizable Matrix"])
 app.include_router(luDecompositionRouter, prefix="/lu", tags=["LU Decomposition"])
 app.include_router(svdRouter, prefix="/svd", tags=["Singular Value Decomposition"])
 app.include_router(powerMethodRouter, prefix="/powermethod", tags=["Power Method"])

@@ -10,3 +10,14 @@ export type APISuccessResponse<T> = {
   message?: string;
   data: T;
 };
+
+type DiagonalizeData = {
+  eigenvalues: number[];
+  eigenvectors: number[][];
+  is_diagonalizable: boolean;
+  P?: number[][];
+  D?: number[][];
+  reconstructed_matrix?: number[][];
+};
+
+export type DiagonalizeResponse = APISuccessResponse<DiagonalizeData>;
