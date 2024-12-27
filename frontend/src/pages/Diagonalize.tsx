@@ -34,7 +34,7 @@ export default function Diagonalize() {
         <>
           <h1 className="text-2xl font-bold">Diagonalizable Matrix</h1>
           <p className="mt-7">
-            A diagonalizable matrix is a square matrix that can be expressed as A = P * D * P^-1, where P is an invertible matrix and D is a diagonal matrix containing the eigenvalues of A. A matrix is diagonalizable if it has a full set of linearly independent eigenvectors.
+            A diagonalizable matrix is a square matrix that can be expressed as A = PDP<sup>-1</sup>, where P is an invertible matrix and D is a diagonal matrix containing the eigenvalues of A. A matrix is diagonalizable if it has a full set of linearly independent eigenvectors.
           </p>
           <div className="w-full flex justify-center mt-20">
             <section className="w-[50%] bg-sky rounded-md flex flex-col items-center justify-center gap-3 py-5">
