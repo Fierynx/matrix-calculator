@@ -10,3 +10,7 @@ export function formatMatrix(matrix: number[][]){
     return `[ ${row.join(" ")} ]`; 
   }).join("\n"); 
 };
+
+export function formatArray(arr: number[]) {
+  return arr.map((num) => `${num.toFixed(3)}`).join(" ");
+}

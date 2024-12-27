@@ -4,8 +4,9 @@ type SetMatrixPopupProps = {
   rows: number;
   cols: number;
   onClose: () => void;
-  onSubmit: (matrix: number[][]) => void;
+  onSubmit: (matrix: number[][], initialGuess?: number[]) => void;
   error: string | undefined;
+  x0?: boolean;
 };
 
 export default function SetMatrixPopup({
@@ -14,9 +15,13 @@ export default function SetMatrixPopup({
   onClose,
   onSubmit,
   error,
+  x0,
 }: SetMatrixPopupProps) {
   const [matrix, setMatrix] = useState<number[][]>(
     Array.from({ length: rows }, () => Array(cols).fill(NaN))
+  );
+  const [initialGuess, setInitialGuess] = useState<number[]>(
+    Array(rows).fill(NaN)
   );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -31,27 +36,43 @@ export default function SetMatrixPopup({
     setErrorMessage(null);
   }
 
+  function handleInitialGuessChange(index: number, value: number) {
+    const updatedGuess = [...initialGuess];
+    updatedGuess[index] = isNaN(value) ? NaN : +value;
+    setInitialGuess(updatedGuess);
+  }
+
   function fillWithZeros() {
     setMatrix((prevMatrix) =>
       prevMatrix.map((row) => row.map((value) => (isNaN(value) ? 0 : value)))
+    );
+    setInitialGuess((prevGuess) =>
+      prevGuess.map((value) => (isNaN(value) ? 0 : value))
     );
     setErrorMessage(null);
   }
 
   function clearMatrix() {
     setMatrix(Array.from({ length: rows }, () => Array(cols).fill(NaN)));
+    setInitialGuess(Array(rows).fill(NaN));
     setErrorMessage(null);
   }
 
-  function handleSubmit(matrix: number[][]) {
+  function handleSubmit(matrix: number[][], initialGuess: number[]) {
     setErrorMessage(error ?? null);
     if (matrix.some((row) => row.some((cell) => isNaN(cell)))) {
-      setErrorMessage("All cells must be filled with number.");
-    } else if(errorMessage && error){
+      setErrorMessage("All cells in the matrix must be filled with numbers.");
+    } else if (initialGuess.every((value) => isNaN(value))) {
+      onSubmit(matrix);
+    } else if (initialGuess.some((value) => isNaN(value))) {
+      setErrorMessage(
+        "All cells in the initial guess must be filled with numbers."
+      );
+    } else if (errorMessage && error) {
       setErrorMessage(error);
     } else {
       setErrorMessage(null);
-      onSubmit(matrix);
+      onSubmit(matrix, initialGuess);
     }
   }
 
@@ -93,7 +114,11 @@ export default function SetMatrixPopup({
                   type="number"
                   value={isNaN(value) ? "" : value}
                   onChange={(e) =>
-                    handleInputChange(rowIndex, colIndex, parseFloat(e.target.value))
+                    handleInputChange(
+                      rowIndex,
+                      colIndex,
+                      parseFloat(e.target.value)
+                    )
                   }
                   onKeyDown={(e) => handleArrowKey(rowIndex, colIndex, e)}
                   ref={(el) => (inputRefs.current[rowIndex][colIndex] = el)}
@@ -103,8 +128,31 @@ export default function SetMatrixPopup({
             </div>
           ))}
         </div>
+        {x0 && (
+          <div>
+            <h3 className="text-md font-semibold mt-4">
+              Initial Guess (x0) (Optional)
+            </h3>
+            <div className="flex gap-3 mt-2">
+              {initialGuess.map((value, index) => (
+                <input
+                  key={index}
+                  type="number"
+                  value={isNaN(value) ? "" : value}
+                  onChange={(e) =>
+                    handleInitialGuessChange(index, parseFloat(e.target.value))
+                  }
+                  className="w-16 h-12 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
         {errorMessage && (
-          <div className="text-red-500 text-sm mt-2 text-center">{errorMessage}</div>
+          <div className="text-red-500 text-sm mt-2 text-center">
+            {errorMessage}
+          </div>
         )}
         <div className="flex justify-between mt-6 space-x-2">
           <button
@@ -120,7 +168,7 @@ export default function SetMatrixPopup({
             Fill empty cells with zero
           </button>
           <button
-            onClick={() => handleSubmit(matrix)}
+            onClick={() => handleSubmit(matrix, initialGuess)}
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
           >
             Solve
