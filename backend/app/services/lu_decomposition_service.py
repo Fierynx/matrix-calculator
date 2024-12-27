@@ -31,6 +31,7 @@ from ..schemas import LUDecompositionInput, LUDecompositionResponse
 #fungsi untuk menyelesaikan Crout's method
 def crout_decomposition(A: LUDecompositionInput) -> LUDecompositionResponse:
     try:
+        crout_possible = True
         #convert input ke numpy array
         A = np.array(A)
         # b = np.array(b)
@@ -53,6 +54,7 @@ def crout_decomposition(A: LUDecompositionInput) -> LUDecompositionResponse:
                     #menghindari pembagian dengan nol (mengatasi singular matrix)
                     if L[row, row] == 0:
                         U[row, cols] = np.nan
+                        crout_possible = False
                     else:
                         U[row, cols] = (A[row, cols] - np.sum(L[row, :row] * U[:row, cols])) / L[row, row]
 
@@ -67,6 +69,7 @@ def crout_decomposition(A: LUDecompositionInput) -> LUDecompositionResponse:
             L=L.tolist(),
             U=U.tolist(),
             A=A.tolist(),
+            crout_possible = crout_possible
             # y=y.tolist(),
             # x=x.tolist()
         )
