@@ -1,8 +1,10 @@
 import numpy as np
+
+from ..services import format_complex_number
 from ..schemas import PowerMethodInput, PowerMethodResponse
 
 def check_dominant(A):
-    A = np.array(A)
+    A = np.array(A, dtype=complex)
     eigenvalues, _ = np.linalg.eig(A)
     max_abs = np.max(np.abs(eigenvalues))
     is_unique = np.sum(np.abs(eigenvalues) == max_abs) == 1
@@ -12,13 +14,14 @@ def power_methods(A, X0: PowerMethodInput, num_iterations= 1000, tolerance= 1e-9
     if not check_dominant(A):
         raise ValueError("Eigenvalue not dominant")
     convergent=False
-    A = np.array(A)
+    A = np.array(A, dtype=complex)
     n, m = A.shape
     
     #jika tebakan awal tidak diberi oleh user, maka menggunakan np.ones sebagai tebakan awal
     if X0 is None:
-        X0 = np.ones(n)
-    
+        X0 = np.ones(n, dtype=complex)
+    else:
+        X0 = np.array(X0, dtype=complex)
     for _ in range(num_iterations):
         #dot matriks dengan vektor
         X1 = np.dot(A, X0)
@@ -41,8 +44,8 @@ def power_methods(A, X0: PowerMethodInput, num_iterations= 1000, tolerance= 1e-9
     eigenvalue = np.dot(X0.T, np.dot(A, X0)) / np.dot(X0.T, X0)
     
     return PowerMethodResponse(
-        dominant_eigenvalue= eigenvalue,
-        corresponding_eigenvector = X0,
+        dominant_eigenvalue= format_complex_number(eigenvalue),
+        corresponding_eigenvector = [format_complex_number(val) for val in X0],
         convergent = convergent
     )
         

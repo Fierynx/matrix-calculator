@@ -15,6 +15,7 @@ export default function LUDecomposition() {
 
   useEffect(() => {
     if (LUData?.success) {
+      setMatrix([]);
       setResult(LUData);
     } else {
       setError(LUData as unknown as APIErrorResponse);

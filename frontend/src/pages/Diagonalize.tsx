@@ -9,12 +9,13 @@ export default function Diagonalize() {
   const [matrixDimension, setMatrixDimension] = useState<number | null>(2);
   const [matrix, setMatrix] = useState<number[][]>([]);
   const [result, setResult] = useState<DiagonalizeResponse>();
-  const [error, setError] = useState<APIErrorResponse | undefined>(); 
+  const [error, setError] = useState<APIErrorResponse | undefined>();
 
   const { diagonalizeData } = useDiagonalizeQuery(matrix);
 
   useEffect(() => {
     if (diagonalizeData?.success) {
+      setMatrix([]);
       setResult(diagonalizeData);
     } else {
       setError(diagonalizeData as unknown as APIErrorResponse);

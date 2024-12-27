@@ -1,4 +1,6 @@
 import numpy as np
+
+from .formatting_service import format_complex_number
 from ..schemas import LUDecompositionInput, LUDecompositionResponse
 
 
@@ -33,15 +35,15 @@ def crout_decomposition(A: LUDecompositionInput) -> LUDecompositionResponse:
     try:
         crout_possible = True
         #convert input ke numpy array
-        A = np.array(A)
+        A = np.array(A, dtype=complex)
         # b = np.array(b)
         
         A_rows, A_cols = A.shape
         if A_rows != A_cols:
             raise ValueError("Matrix input harus square matrix!")
         #membuat lower triangular matrix (L) dan upper triangular matrix (U)
-        L = np.zeros_like(A)
-        U = np.eye(A_cols) 
+        L = np.zeros_like(A, dtype=complex)
+        U = np.eye(A_cols, dtype=complex) 
 
         #decompose matrix menjadi L dan U
         for row in range(A_rows):
@@ -66,9 +68,9 @@ def crout_decomposition(A: LUDecompositionInput) -> LUDecompositionResponse:
         # x = backward_substitution_crout(U, y)
         
         return LUDecompositionResponse(
-            L=L.tolist(),
-            U=U.tolist(),
-            A=A.tolist(),
+            L=[[format_complex_number(val) for val in row] for row in L],
+            U=[[format_complex_number(val) for val in row] for row in U],
+            A=[[format_complex_number(val) for val in row] for row in A],
             crout_possible = crout_possible
             # y=y.tolist(),
             # x=x.tolist()

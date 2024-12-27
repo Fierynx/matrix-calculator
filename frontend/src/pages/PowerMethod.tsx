@@ -16,6 +16,8 @@ export default function PowerMethod() {
 
   useEffect(() => {
     if (PowerMethodData?.success) {
+      setMatrix([]);
+      setInitialGuess([]);
       setResult(PowerMethodData);
     } else {
       setError(PowerMethodData as unknown as APIErrorResponse);

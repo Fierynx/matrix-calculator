@@ -16,6 +16,7 @@ export default function SingularVaSVDeDecomposition() {
 
   useEffect(() => {
     if (SVDData?.success) {
+      setMatrix([]);
       setResult(SVDData);
     } else {
       setError(SVDData as unknown as APIErrorResponse);
