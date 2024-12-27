@@ -40,7 +40,7 @@ export default function PowerMethodResult({ result, setResult }: PowerMethodResu
         </pre>
       </div>
       <div className="mb-4">
-        <h3 className="font-bold">Crout's method possible:</h3>
+        <h3 className="font-bold">Convergent:</h3>
         <pre className="bg-gray-100 p-4 rounded-md">
           {result.data.convergent ? "Yes" : "No"}
         </pre>

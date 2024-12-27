@@ -18,5 +18,19 @@
         "floating-chat.donateButton.text-color": "#fff",
       });
     </script>
+    <script>
+      document.addEventListener("scroll", function () {
+        const footer = document.querySelector(".footer");
+        const footerTop = footer.getBoundingClientRect().top;
+        const widget = document.querySelector(".floatingchat-container-wrap-mobi");
+
+        if (footerTop < window.innerHeight) {
+          widget.style.bottom = "100px";
+        } else {
+          widget.style.bottom = "16px";
+        }
+      });
+    </script>
+    
   </body>
 </html>
