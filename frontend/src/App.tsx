@@ -1,16 +1,17 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import AppLayout from './pages/AppLayout';
-import Instructions from './pages/Instructions';
-import Diagonalize from './pages/Diagonalize';
-import LUDecomposition from './pages/LUDecomposition';
-import PowerMethod from './pages/PowerMethod';
-import SingularValueDecomposition from './pages/SingularValueDecomposition';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AppLayout from "./pages/AppLayout";
+import Instructions from "./pages/Instructions";
+import Diagonalize from "./pages/Diagonalize";
+import LUDecomposition from "./pages/LUDecomposition";
+import PowerMethod from "./pages/PowerMethod";
+import SingularValueDecomposition from "./pages/SingularValueDecomposition";
+import ToastProvider from "./components/general/Toast";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <AppLayout/>,
+    element: <AppLayout />,
     children: [
       {
         path: "/",
@@ -40,10 +41,12 @@ const router = createBrowserRouter([
   },
 ]);
 
-export default function App(){
+export default function App() {
   return (
     <QueryClientProvider client={new QueryClient()}>
-      <RouterProvider router={router} />
+      <ToastProvider>
+        <RouterProvider router={router} />
+      </ToastProvider>
     </QueryClientProvider>
   );
 }

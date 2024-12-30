@@ -1,33 +1,37 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SetMatrixPopup from "../components/general/SetMatrixPopup";
 import { APIErrorResponse, PowerMethodResponse } from "../lib/types";
-import usePowerMethodQuery from "../hooks/usePowerMethodQuery";
+// import usePowerMethodQuery from "../hooks/usePowerMethodQuery";
 import PowerMethodResult from "../components/power/PowerMethodResult";
+import usePowerMethodMutation from "../hooks/usePowerMethodMutation";
+import { useToast } from "../components/general/Toast";
 
 export default function PowerMethod() {
   const [showPopup, setShowPopup] = useState(false);
   const [matrixDimension, setMatrixDimension] = useState<number | null>(2);
-  const [matrix, setMatrix] = useState<number[][]>([]);
-  const [initialGuess, setInitialGuess] = useState<number[]>();
   const [result, setResult] = useState<PowerMethodResponse>();
   const [error, setError] = useState<APIErrorResponse | undefined>();
+  const { toast } = useToast();
+  const { powerMethodMutation } = usePowerMethodMutation();
 
-  const { PowerMethodData } = usePowerMethodQuery(matrix, initialGuess);
-
-  useEffect(() => {
-    if (PowerMethodData?.success) {
-      setMatrix([]);
-      setInitialGuess([]);
-      setResult(PowerMethodData);
-    } else {
-      setError(PowerMethodData as unknown as APIErrorResponse);
-    }
-  }, [PowerMethodData, error]);
-
-  const handleMatrixSubmit = (matrix: number[][], initialGuess?: number[]) => {
-    setMatrix(matrix);
-    setInitialGuess(initialGuess);
-    setShowPopup(false);
+  const handleMatrixSubmit = (A: number[][], x0?: number[]) => {
+    powerMethodMutation.mutate(
+      { A, x0 },
+      {
+        onSuccess: (data) => {
+          const powerMethodData = data.data;
+          if (powerMethodData?.success) {
+            setResult(powerMethodData);
+            setShowPopup(false);
+          } else {
+            if (powerMethodData.message) {
+              toast.error(powerMethodData.message);
+            }
+            setError(powerMethodData as unknown as APIErrorResponse);
+          }
+        },
+      }
+    );
   };
 
   return (

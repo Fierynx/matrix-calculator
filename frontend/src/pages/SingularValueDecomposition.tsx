@@ -1,30 +1,33 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SetMatrixPopup from "../components/general/SetMatrixPopup";
 import { APIErrorResponse, SVDResponse } from "../lib/types";
-import useSVDQuery from "../hooks/useSVDQuery";
 import SVDResult from "../components/svd/SVDResult";
+import { useToast } from "../components/general/Toast";
+import useSVDMutation from "../hooks/useSVDMutation";
 
 export default function SingularVaSVDeDecomposition() {
   const [showPopup, setShowPopup] = useState(false);
   const [matrixRows, setMatrixRows] = useState<number | null>(2);
   const [matrixCols, setMatrixCols] = useState<number | null>(3);
-  const [matrix, setMatrix] = useState<number[][]>([]);
   const [result, setResult] = useState<SVDResponse>();
   const [error, setError] = useState<APIErrorResponse | undefined>();
-
-  const { SVDData } = useSVDQuery(matrix);
-
-  useEffect(() => {
-    if (SVDData?.success) {
-      setMatrix([]);
-      setResult(SVDData);
-    } else {
-      setError(SVDData as unknown as APIErrorResponse);
-    }
-  }, [SVDData, error]);
+  const { toast } = useToast();
+  const { SVDMutation } = useSVDMutation();
 
   const handleMatrixSubmit = (matrix: number[][]) => {
-    setMatrix(matrix);
+    SVDMutation.mutate(matrix, {
+      onSuccess: (data) => {
+        const SVDData = data.data;
+        if (SVDData?.success) {
+          setResult(SVDData);
+        } else {
+          if (SVDData.message) {
+            toast.error(SVDData.message);
+          }
+          setError(SVDData as unknown as APIErrorResponse);
+        }
+      },
+    });
     setShowPopup(false);
   };
 
@@ -56,9 +59,7 @@ export default function SingularVaSVDeDecomposition() {
                   className="bg-white text-xs w-10 h-6 text-center"
                   value={matrixRows ? matrixRows : ""}
                   onChange={(e) =>
-                    setMatrixRows(
-                      Number((e.target as HTMLInputElement).value)
-                    )
+                    setMatrixRows(Number((e.target as HTMLInputElement).value))
                   }
                 />
                 <p>x</p>
@@ -67,9 +68,7 @@ export default function SingularVaSVDeDecomposition() {
                   className="bg-white text-xs w-10 h-6 text-center"
                   value={matrixCols ? matrixCols : ""}
                   onChange={(e) =>
-                    setMatrixCols(
-                      Number((e.target as HTMLInputElement).value)
-                    )
+                    setMatrixCols(Number((e.target as HTMLInputElement).value))
                   }
                 />
               </div>
